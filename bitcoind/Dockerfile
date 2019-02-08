@@ -33,11 +33,13 @@ EXPOSE 8883 8882 18309 19345
 RUN mkdir -p /root/.bitcoin
 VOLUME ["/root/.bitcoin"]
 
+# Copy accross the bitcoin.conf file additional arguments to the bitcoind deamon can be set here.
+COPY "bitcoin.conf" "/root/bitcoin.conf"
+
 # Copy and CHMOD the start script. This script is run in the container when we call 'docker-compose up'.
 # start-bitcoind.sh which uses config from bitcoin.conf to start eh deamon. 
 # Run docker-run up --build to rebuild with new configs if you make a change bitcoind/bitcoin.conf
 COPY "start-bitcoind.sh" .
 RUN chmod +x start-bitcoind.sh
-COPY "bitcoin.conf" "/root/bitcoin.conf"
 
 
