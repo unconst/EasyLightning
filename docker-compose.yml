@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+
+    # Runs the bitcoind service, and exposes itself to the lnd_service. 
+    bitcoind_service:
+        image: bitcoind_image
+        build:
+            context: bitcoind/
+        container_name: bitcoind_container
+        volumes:
+            - ./bitcoind/bitcoin_data:/root/.bitcoin
+        restart: always
+        entrypoint: ["./start-bitcoind.sh"]
+
+
+    # Runs the lnd service.
+    lnd_service:
+        image: lnd_image
+        build:
+            context: lnd/
+        container_name: lnd_container
+        volumes:
+          - ./lnd/lnd_data:/root/.lnd
+        depends_on:
+            - bitcoind_service
+        restart: always
+        entrypoint: ["./start-lnd.sh"]
+

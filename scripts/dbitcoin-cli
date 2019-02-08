@@ -1,0 +1,5 @@
+#!/bin/bash
+
+eval $(docker-machine env lnd)
+docker exec -i -t bitcoind_container bitcoin-cli "$@"
+eval $(docker-machine env -u)
