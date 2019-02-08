@@ -18,6 +18,14 @@ services:
         image: lnd_image
         build:
             context: lnd/
+        ports:
+            - "10009:10009"
+            - "8080:8080"
+            - "9735:9735"
+        expose:
+            - "9735"
+            - "8080"
+            - "10009"
         container_name: lnd_container
         volumes:
           - ./lnd/lnd_data:/root/.lnd

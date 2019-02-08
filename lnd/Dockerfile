@@ -8,6 +8,7 @@ RUN apk update \
 	&& mv lnd-linux-amd64-v0.5.2-beta/* /usr/local/bin/ \
 	&& apk del wget ca-certificates tar 
 
+
 # Create LND Volume. /root/.lnd/  remains consistent with the lnd/lnd folder on the host.
 # By creating a volume these folders remain persistent across runs.
 RUN mkdir -p /root/.lnd
