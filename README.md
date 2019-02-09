@@ -8,7 +8,7 @@
 # Steps:
 
 ```
-// 1. Set your Digital Ocean Droplet access token.
+// 1. Set your env vars.
 export DOTOKEN=<your-digital-ocean-token>
 export RPCUSER=<your-rpc-user>
 export RPCPASS=<your-rpc-password>
