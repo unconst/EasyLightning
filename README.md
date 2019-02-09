@@ -18,33 +18,28 @@ export RPCPASS=<your-rpc-password>
 docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DO_TOKEN lnd
 
 
-// 3. Get this repo
+// 3. Get this repo.
 git clone https://github.com/unconst/DockerBitcoindLND
 cd EasyLightning
 
 
-// Set docker machine env to droplet.
+// 4. Compose Bitcoin and LND on droplet.
 eval $(docker-machine env lnd)
-
-// Compose Bitcoin and LND services.
 docker-compose up -d
-
-// Check the logs.
 docker logs --tail 100 lnd_container
-docker logs --tail 100 bitcoind_containe
-
-// Switch docker machine env back to local
+docker logs --tail 100 bitcoind_container
 eval $(docker-machine env -u)
 
-// Add scripts to your path.
+
+// 5. Add scripts to your path.
 export PATH=$PATH:$(pwd)/scripts
 
-// Create Lnd wallet.
-// Create an lncli wallet.
+
+// 6. Create Lnd wallet.
 dlncli create
 
-// Get lnd and bitcoind status.
-// Get lnd info.
+
+// 7. Get lnd info.
 dlncli getinfo
 e.g.
 {
@@ -93,10 +88,6 @@ e.g.
 // Wait for bitcoin to sync ... could take 12 hours or so.
 ...
 
-// Or check logs on bitcoind container
-eval $(docker-machine env lnd)
-docker logs --tail 100 bitcoind_container
-eval $(docker-machine env lnd)
 
 ```
 
