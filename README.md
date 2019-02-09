@@ -1,16 +1,18 @@
 
 # Requirements:
-(1) docker
-(2) docker-compose
-(3) docker-machine
-(4) digital ocean account & access token
+1. docker
+1. docker-compose
+1. docker-machine
+1. digital ocean account & access token
 
 # Steps:
 
 ## [1] Set your Digital Ocean Droplet access token.
+```
 export DOTOKEN=<your-digital-ocean-token>
 export RPCUSER=<your-rpc-user>
 export RPCPASS=<your-rpc-password>
+```
 
 ## [2] Create a cheap Droplet on Digital Ocean.
 docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DO_TOKEN lnd
