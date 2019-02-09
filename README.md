@@ -15,7 +15,7 @@ export RPCPASS=<your-rpc-password>
 
 
 // 2. Create a cheap Droplet on Digital Ocean.
-docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DO_TOKEN lnd
+docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DOTOKEN lnd
 
 
 // 3. Get this repo.
