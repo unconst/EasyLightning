@@ -7,21 +7,22 @@
 
 # Steps:
 
-## [1] Set your Digital Ocean Droplet access token.
 ```
+// 1. Set your Digital Ocean Droplet access token.
 export DOTOKEN=<your-digital-ocean-token>
 export RPCUSER=<your-rpc-user>
 export RPCPASS=<your-rpc-password>
-```
 
-## [2] Create a cheap Droplet on Digital Ocean.
+
+// 2. Create a cheap Droplet on Digital Ocean.
 docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DO_TOKEN lnd
 
-## [3] Get this repo
+
+// 3. Get this repo
 git clone https://github.com/unconst/DockerBitcoindLND
 cd EasyLightning
 
-## [5] Build Bitcoin and Lnd on server.
+
 // Set docker machine env to droplet.
 eval $(docker-machine env lnd)
 
@@ -35,17 +36,16 @@ docker logs --tail 100 bitcoind_containe
 // Switch docker machine env back to local
 eval $(docker-machine env -u)
 
-## [6] Add scripts to your path.
+// Add scripts to your path.
 export PATH=$PATH:$(pwd)/scripts
 
-## [8] Create Lnd wallet.
+// Create Lnd wallet.
 // Create an lncli wallet.
 dlncli create
 
-## [7] Get lnd and bitcoind status.
+// Get lnd and bitcoind status.
 // Get lnd info.
 dlncli getinfo
-
 e.g.
 {
     "identity_pubkey": "...",
@@ -70,7 +70,6 @@ e.g.
 
 // Get bitcoind info.
 dbitcoin-cli --rpcuser=$RPCUSER --rpcpassword=$RPCPASS -getinfo
-
 e.g.
 {
   "version": 170100,
@@ -90,16 +89,16 @@ e.g.
   "warnings": ""
 }
 
-
-## [9] Wait for bitcoin to sync ... could take 12 hours or so.
-
-// Check for dlncli getinfo synced-to-hain == True
+...
+// Wait for bitcoin to sync ... could take 12 hours or so.
+...
 
 // Or check logs on bitcoind container
 eval $(docker-machine env lnd)
 docker logs --tail 100 bitcoind_container
 eval $(docker-machine env lnd)
 
+```
 
 
 
