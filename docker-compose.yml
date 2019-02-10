@@ -6,6 +6,8 @@ services:
         image: bitcoind_image
         build:
             context: bitcoind/
+        env_file:
+            - bitcoind/bitcoind.env
         container_name: bitcoind_container
         volumes:
             - ~/.bitcoin:/root/.bitcoin
@@ -16,6 +18,8 @@ services:
     # Runs the lnd service.
     lnd_service:
         image: lnd_image
+        env_file:
+            - lnd/lnd.env
         build:
             context: lnd/
         ports:

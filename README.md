@@ -1,41 +1,37 @@
 # Steps:
 
 ```
-// 1. Set your env vars.
-export DOTOKEN=<your-digital-ocean-token>
-export RPCUSER=<your-rpc-user>
-export RPCPASS=<your-rpc-password>
 
-
-// 2. Create a cheap Droplet on Digital Ocean.
-docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DOTOKEN lnd
-
-docker-machine ssh lnd 'ufw allow 22/tcp'
-docker-machine ssh lnd 'ufw reload'
-docker-machine ssh lnd 'ufw --force enable'
-
-// 3. Get this repo.
+// 1. Get this repo.
 git clone https://github.com/unconst/DockerBitcoindLND
 cd EasyLightning
 
+// 2. Set your env vars.
+export DOTOKEN=<your-digital-ocean-token>
 
-// 4. Compose Bitcoin and LND on droplet.
+// 3. Create a cheap Droplet on Digital Ocean.
+docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DOTOKEN lnd
+docker-machine ssh lnd 'ufw allow 10009/tcp'
+docker-machine ssh lnd 'ufw allow 9735/tcp'
+docker-machine ssh lnd 'ufw allow 8080/tcp'
+docker-machine ssh lnd 'ufw reload'
+docker-machine ssh lnd 'ufw --force enable'
+
+// 4. Set docker-machine env to the remote machine.
 eval $(docker-machine env lnd)
+
+// 5. Compose Bitcoin and LND on droplet.
 docker-compose up -d
 docker logs --tail 100 lnd_container
 docker logs --tail 100 bitcoind_container
-eval $(docker-machine env -u)
 
-
-// 5. Add scripts to your path.
+// 6. Add scripts to your path.
 export PATH=$PATH:$(pwd)/scripts
 
-
-// 6. Create Lnd wallet.
+// 7. Create Lnd wallet.
 dlncli create
 
-
-// 7. Get lnd info.
+// 8. Get lnd info.
 dlncli getinfo
 e.g.
 {
@@ -59,7 +55,7 @@ e.g.
 }
 
 
-// Get bitcoind info.
+// 9. Get bitcoind info.
 dbitcoin-cli --rpcuser=$RPCUSER --rpcpassword=$RPCPASS -getinfo
 e.g.
 {
@@ -79,6 +75,10 @@ e.g.
   "relayfee": 0.00001000,
   "warnings": ""
 }
+
+// 10. Set docker env back to the local machine.
+eval $(docker-machine env -u)
+
 
 ...
 // Wait for bitcoin to sync ... could take 12 hours or so.

@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
-# exit from script if error was raised.
-set -e
+# Copy env vars to lnd.conf.
+rm -f /root/lnd.conf
+touch /root/lnd.conf
+env >> /root/lnd.conf
 
-# error function is used within a bash function in order to send the error
-# message directly to the stderr output and exit.
-error() {
-    echo "$1" > /dev/stderr
-    exit 0
-}
-
-# return is used within bash function in order to return the value.
-return() {
-    echo "$1"
-}
+# Remove default env vars.
+sed -i '/HOSTNAME/d' ./root/lnd.conf
+sed -i '/PWD/d' ./root/lnd.conf
+sed -i '/HOME/d' ./root/lnd.conf
+sed -i '/TERM/d' ./root/lnd.conf
+sed -i '/SHLVL/d' ./root/lnd.conf
+sed -i '/PATH/d' ./root/lnd.conf
+sed -i '/_=/d' ./root/lnd.conf
 
 # Print bitcoin.conf.
 echo "Starting LND with /root/lnd.conf"
