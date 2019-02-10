@@ -1,10 +1,3 @@
-
-# Requirements:
-1. docker
-1. docker-compose
-1. docker-machine
-1. digital ocean account & access token
-
 # Steps:
 
 ```
