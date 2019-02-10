@@ -17,6 +17,9 @@ export RPCPASS=<your-rpc-password>
 // 2. Create a cheap Droplet on Digital Ocean.
 docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DOTOKEN lnd
 
+docker-machine ssh lnd 'ufw allow 22/tcp'
+docker-machine ssh lnd 'ufw reload'
+docker-machine ssh lnd 'ufw --force enable'
 
 // 3. Get this repo.
 git clone https://github.com/unconst/DockerBitcoindLND
