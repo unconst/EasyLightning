@@ -1,28 +1,32 @@
-# Steps:
 
-```
-
-// 1. Get this repo.
-git clone https://github.com/unconst/DockerBitcoindLND
-cd EasyLightning
-
-// 2. Set your env vars.
-export DOTOKEN=<your-digital-ocean-token>
-
-// 3. Create a cheap Droplet on Digital Ocean.
+echo "Creating Digital Ocean Droplet.."
 docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DOTOKEN lnd
-docker-machine ssh lnd 'ufw allow 22/tcp && ufw allow 9735/tcp && ufw allow 8080/tcp && ufw allow 10009/tcp && ufw allow 2376 && ufw --force enable && ufw status'
 
-// 4. Set docker-machine env to the remote machine.
+
+echo "Openning Firewalls on Droplet.."
+docker-machine ssh lnd 'ufw allow 9735/tcp'
+docker-machine ssh lnd 'ufw allow 8080/tcp'
+docker-machine ssh lnd 'ufw allow 10009/tcp'
+docker-machine ssh lnd 'ufw reload'
+docker-machine ssh lnd 'ufw --force enable'
+
+echo "Setting docker env to the remote machine..."
 eval $(docker-machine env lnd)
 
-// 5. Compose Bitcoin and LND on droplet.
+echo "Composing Bitcoin and LND services on the droplet..."
 docker-compose up -d
+
+sleep 2
+
+echo "Printing LND logs..."
 docker logs --tail 100 lnd_container
+
+echo "Printing Bitcoind logs..."
 docker logs --tail 100 bitcoind_container
 
-// 6. Add scripts to your path.
-export PATH=$PATH:$(pwd)/scripts
+echo "Adddin scripts to your path..."
+export PATH=$PATH:$(pwd)/scripts'
+
 
 // 7. Create Lnd wallet.
 dlncli create
@@ -74,16 +78,6 @@ e.g.
 
 // 10. Set docker env back to the local machine.
 eval $(docker-machine env -u)
-
-
-...
-// Wait for bitcoin to sync ... could take 12 hours or so.
-...
-
-
-```
-
-
 
 
 
