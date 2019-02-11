@@ -6,28 +6,26 @@
 git clone https://github.com/unconst/DockerBitcoindLND
 cd EasyLightning
 
-// 2. Set your env vars.
+// 2. Create a cheap Droplet on Digital Ocean.
 export DOTOKEN=<your-digital-ocean-token>
-
-// 3. Create a cheap Droplet on Digital Ocean.
 docker-machine create  --driver digitalocean  --digitalocean-image ubuntu-18-04-x64   --digitalocean-size "1gb" --digitalocean-access-token $DOTOKEN lnd
 docker-machine ssh lnd 'ufw allow 22/tcp && ufw allow 9735/tcp && ufw allow 8080/tcp && ufw allow 10009/tcp && ufw allow 2376 && ufw --force enable && ufw status'
 
-// 4. Set docker-machine env to the remote machine.
+// 3. Set docker-machine env to the remote machine.
 eval $(docker-machine env lnd)
 
-// 5. Compose Bitcoin and LND on droplet.
+// 4. Compose Bitcoin and LND on droplet.
 docker-compose up -d
 docker logs --tail 100 lnd_container
 docker logs --tail 100 bitcoind_container
 
-// 6. Add scripts to your path.
+// 5. Add scripts to your path.
 export PATH=$PATH:$(pwd)/scripts
 
-// 7. Create Lnd wallet.
+// 6. Create Lnd wallet.
 dlncli create
 
-// 8. Get lnd info.
+// 7. Get lnd info.
 dlncli getinfo
 e.g.
 {
@@ -51,7 +49,7 @@ e.g.
 }
 
 
-// 9. Get bitcoind info.
+// 8. Get bitcoind info.
 dbitcoin-cli --rpcuser=$RPCUSER --rpcpassword=$RPCPASS -getinfo
 e.g.
 {
